@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}新增食譜 - 食譜收藏夾{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <h2 class="mb-4">分享我的好食譜</h2>
+        <form method="POST" action="{{ url_for('recipe.new_recipe') }}">
+            <div class="mb-3">
+                <label for="title" class="form-label">食譜標題 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">簡介說明</label>
+                <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="image_url" class="form-label">圖片網址 (選填)</label>
+                <input type="url" class="form-control" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">分類</label>
+                <input type="text" class="form-control" id="category" name="category" placeholder="台式、甜點、晚餐...">
+            </div>
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">食材清單 (請用半形逗號分開，供冰箱尋寶使用)</label>
+                <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="例如：番茄, 雞蛋, 鹽巴">
+            </div>
+            <div class="mb-3">
+                <label for="steps" class="form-label">製作步驟 <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="steps" name="steps" rows="6" required placeholder="第一步：...&#10;第二步：..."></textarea>
+            </div>
+            <div class="text-end mb-5">
+                <button type="submit" class="btn btn-primary px-5">發布食譜</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}修改食譜 - 食譜收藏夾{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <h2 class="mb-4">編輯食譜</h2>
+        <form method="POST" action="{{ url_for('recipe.edit_recipe', recipe_id=recipe.id) }}">
+            <div class="mb-3">
+                <label for="title" class="form-label">食譜標題 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ recipe.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">簡介說明</label>
+                <textarea class="form-control" id="description" name="description" rows="2">{{ recipe.description }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="image_url" class="form-label">圖片網址 (選填)</label>
+                <input type="url" class="form-control" id="image_url" name="image_url" value="{{ recipe.image_url|default('') }}">
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">分類</label>
+                <input type="text" class="form-control" id="category" name="category" value="{{ recipe.category|default('') }}">
+            </div>
+            <div class="mb-3">
+                <label for="steps" class="form-label">製作步驟 <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="steps" name="steps" rows="6" required>{{ recipe.steps }}</textarea>
+            </div>
+            <div class="text-end mb-5">
+                <a href="{{ url_for('recipe.detail', recipe_id=recipe.id) }}" class="btn btn-secondary me-2">取消</a>
+                <button type="submit" class="btn btn-primary px-5">儲存變更</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

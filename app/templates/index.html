@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}首頁 - 食譜收藏夾{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">歡迎來到食譜收藏夾</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">這是一個讓你輕鬆儲存最愛食譜，還能依靠「冰箱尋寶」功能，用剩下的食材找出完美料理的平台。</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('recipe.index') }}" class="btn btn-primary btn-lg px-4 gap-3">探索食譜</a>
+            <a href="{{ url_for('search.index') }}" class="btn btn-outline-secondary btn-lg px-4">冰箱尋寶</a>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+    <!-- 之後可以在此迴圈列出推薦食譜 -->
+    {% if recipes %}
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <!-- 預留圖片位置 -->
+                {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;">
+                    <span>無圖片</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p class="card-text text-truncate">{{ recipe.description|default('無介紹', true) }}</p>
+                    <a href="{{ url_for('recipe.detail', recipe_id=recipe.id) }}" class="btn btn-sm btn-outline-primary">查看詳情</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center text-muted">目前還沒有公開食譜，趕緊註冊並新增你的私房料理吧！</div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.title }} - 食譜收藏夾{% endblock %}
+{% block content %}
+<div class="row mt-4 mb-5">
+    <div class="col-md-8 mx-auto">
+        {% if recipe.image_url %}
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" class="img-fluid rounded mb-4 w-100" style="max-height: 400px; object-fit: cover;">
+        {% endif %}
+        
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h1 class="display-5 fw-bold">{{ recipe.title }}</h1>
+            {% if session.get('user_id') == recipe.user_id %}
+            <div>
+                <a href="{{ url_for('recipe.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-sm btn-outline-secondary">編輯</a>
+                <form action="{{ url_for('recipe.delete_recipe', recipe_id=recipe.id) }}" method="POST" class="d-inline" onsubmit="return confirm('確定要刪除這份食譜嗎？')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">刪除</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        
+        <p class="text-muted mb-4">
+            分類：<span class="badge bg-secondary">{{ recipe.category|default('未分類') }}</span> | 
+            發布於：{{ recipe.created_at[:10] if recipe.created_at else '未知' }}
+        </p>
+
+        {% if recipe.description %}
+        <div class="lead mb-4 p-3 bg-light rounded">{{ recipe.description }}</div>
+        {% endif %}
+
+        <h4 class="mt-4 border-bottom pb-2">準備食材</h4>
+        <ul class="list-group mb-4">
+            {% if ingredients %}
+                {% for ing in ingredients %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ ing.name }}
+                    {% if ing.quantity %}
+                    <span class="badge bg-primary rounded-pill">{{ ing.quantity }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item text-muted">未提供特定食材</li>
+            {% endif %}
+        </ul>
+
+        <h4 class="mt-4 border-bottom pb-2">製作步驟</h4>
+        <div class="p-3" style="white-space: pre-wrap;">{{ recipe.steps }}</div>
+
+    </div>
+</div>
+{% endblock %}

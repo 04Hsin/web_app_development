@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}探索食譜 - 食譜收藏夾{% endblock %}
+{% block content %}
+<h2 class="mt-4 mb-4">探索所有食譜</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if recipes %}
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;"><span>無圖片</span></div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p class="card-text text-truncate">{{ recipe.description }}</p>
+                    <a href="{{ url_for('recipe.detail', recipe_id=recipe.id) }}" class="btn btn-sm btn-outline-primary">讀取更多</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center my-5 text-muted">系統內尚無食譜。</div>
+    {% endif %}
+</div>
+{% endblock %}

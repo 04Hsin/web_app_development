@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}冰箱尋寶 - 食譜收藏夾{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5 mb-5">
+    <div class="col-md-8 text-center">
+        <h1 class="display-5 fw-bold mb-3">🧊 冰箱尋寶</h1>
+        <p class="lead mb-4">告訴我你冰箱裡有什麼食材，我幫你找出能變出的料理！</p>
+        
+        <form method="GET" action="{{ url_for('search.results') }}" class="mt-4">
+            <div class="input-group input-group-lg mb-3">
+                <input type="text" class="form-control form-control-lg border-primary shadow-sm" name="ingredients" 
+                       placeholder="輸入食材名稱 (多個請用半形逗號 , 分隔)" required>
+                <button class="btn btn-primary px-4" type="submit">開始尋寶</button>
+            </div>
+            <p class="text-muted small">範例： 番茄, 雞蛋, 高麗菜</p>
+        </form>
+    </div>
+</div>
+{% endblock %}

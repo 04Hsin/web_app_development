@@ -1,22 +1,24 @@
 from flask import Blueprint, render_template, request
+from app.models import Recipe, Ingredient
 
 search_bp = Blueprint('search', __name__, url_prefix='/search')
 
 @search_bp.route('', methods=['GET'])
 def index():
-    """
-    搜尋首頁 / 冰箱尋寶輸入頁
-    - 顯示可以輸入或選擇食材的表單介面
-    - 渲染 search/index.html
-    """
-    pass
+    return render_template('search/index.html')
 
 @search_bp.route('/results', methods=['GET'])
 def results():
-    """
-    搜尋結果列表
-    - 接收 Query String (如 ?ingredients=番茄,雞蛋 或 ?q=標題關鍵字)
-    - 呼叫搜尋演算法比對並撈出符合的食譜清單
-    - 渲染 search/results.html
-    """
-    pass
+    query_ingredients = request.args.get('ingredients', '')
+    recipes = []
+    
+    if query_ingredients:
+        ings = [i.strip() for i in query_ingredients.split(',') if i.strip()]
+        all_recipes = Recipe.get_all()
+        for r in all_recipes:
+            r_ings = Ingredient.get_by_recipe(r.id)
+            r_ing_names = [i['name'] for i in r_ings]
+            if set(ings) & set(r_ing_names):
+                recipes.append(r)
+                
+    return render_template('search/results.html', recipes=recipes, query=query_ingredients)
